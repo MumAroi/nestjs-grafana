@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { LoggingInterceptor } from './logging.interceptor';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [PrometheusModule.register()],
+  controllers: [],
+  providers: [{
+    provide: APP_INTERCEPTOR,
+    useClass: LoggingInterceptor 
+  }],
 })
 export class AppModule {}
